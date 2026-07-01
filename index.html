@@ -745,14 +745,13 @@
     .reveal-scale { transform: scale(0.94); }
     .reveal-scale.visible { transform: scale(1); }
 
-    /* Staggered word reveal for hero */
-    .hero h1 .word {
-      display: inline-block;
+    /* Hero heading fade-in */
+    .hero h1 {
       opacity: 0;
       transform: translateY(30px);
-      animation: wordUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      animation: heroIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s forwards;
     }
-    @keyframes wordUp {
+    @keyframes heroIn {
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -1153,32 +1152,7 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-    // Staggered word reveal for hero H1
-    const h1 = document.getElementById('hero-h1');
-    const wrapWords = (node) => {
-      const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
-      const nodes = [];
-      let n;
-      while ((n = walker.nextNode())) nodes.push(n);
-      nodes.forEach((textNode) => {
-        const frag = document.createDocumentFragment();
-        textNode.nodeValue.split(/(\s+)/).forEach((chunk) => {
-          if (/\s/.test(chunk)) {
-            frag.appendChild(document.createTextNode(chunk));
-          } else if (chunk.length) {
-            const span = document.createElement('span');
-            span.className = 'word';
-            span.textContent = chunk;
-            frag.appendChild(span);
-          }
-        });
-        textNode.parentNode.replaceChild(frag, textNode);
-      });
-    };
-    wrapWords(h1);
-    document.querySelectorAll('#hero-h1 .word').forEach((w, i) => {
-      w.style.animationDelay = `${0.08 * i}s`;
-    });
+    // Hero H1 fades in via CSS animation — no JS word splitting needed.
 
     // Live demo modal
     const modal = document.getElementById('demoModal');
