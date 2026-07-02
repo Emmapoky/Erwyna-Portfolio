@@ -1019,9 +1019,9 @@
             <span class="tech-chip">Embeddings</span>
           </div>
           <div class="project-links">
-            <button class="primary" data-demo="https://commentsense-al2hrr5g9pta4h2ip55smk.streamlit.app/" data-title="CommentSense · Live Demo" onclick="openDemo(this)">
+            <a class="primary" href="https://commentsense-al2hrr5g9pta4h2ip55smk.streamlit.app/" target="_blank" rel="noopener">
               ▶ Launch Demo
-            </button>
+            </a>
             <a href="https://github.com/taabishfrl/CommentSense" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.6.5.5 5.6.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.5-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.6 18.4.5 12 .5z"/></svg>
               GitHub
@@ -1067,7 +1067,7 @@
             <span class="tech-chip">PDF parsing</span>
           </div>
           <div class="project-links">
-            <button class="primary" data-demo="https://www.figma.com/embed?embed_host=portfolio&amp;url=https%3A%2F%2Fwww.figma.com%2Fproto%2Fc1n3i1UdbBMUp1TfXX7bIl%2FKnowva%3Fpage-id%3D0%253A1%26node-id%3D134-1739%26starting-point-node-id%3D134%253A1739%26scaling%3Dcontain%26content-scaling%3Dfixed%26t%3DvIPUUrRr8HpedrG6-1" data-title="Knowva · Figma Prototype" onclick="openDemo(this)">
+            <button class="primary" data-notice="Knowva was built during Gamuda AI Academy using paid services — Gemini API, hosted vector stores, and other academy-provided infrastructure. Those subscriptions ended when I finished the program, so the live prototype is no longer running.&#10;&#10;The full source code, architecture diagram, and walkthrough deck are all linked below — feel free to explore how it was built." data-title="Knowva · Prototype Status" onclick="openNotice(this)">
               ▶ View Prototype
             </button>
             <a href="https://github.com/mkhairul/knowva" target="_blank" rel="noopener">
@@ -1315,7 +1315,32 @@
       frame.src = 'about:blank';
       document.body.style.overflow = '';
     }
+
+    // Notice modal — for projects with a message instead of a live demo
+    function openNotice(btn) {
+      const message = btn.dataset.notice || '';
+      const t = btn.dataset.title || 'Notice';
+      title.textContent = t;
+      frame.style.display = 'none';
+      frame.src = 'about:blank';
+
+      // Build the notice content
+      fallback.innerHTML = `
+        <div style="max-width: 560px; text-align: center; padding: 20px;">
+          <div style="font-size: 42px; margin-bottom: 20px;">🌸</div>
+          <div style="font-family:'Fraunces',serif; font-size:26px; font-style:italic; color:var(--ink); margin-bottom: 24px; line-height: 1.3;">
+            The live prototype is offline.
+          </div>
+          <div style="font-size: 15px; color: var(--ink-dim); line-height: 1.75; white-space: pre-line;">${message}</div>
+        </div>
+      `;
+      fallback.style.display = 'flex';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
     window.openDemo = openDemo;
+    window.openNotice = openNotice;
     window.closeDemo = closeDemo;
 
     document.addEventListener('keydown', (e) => {
