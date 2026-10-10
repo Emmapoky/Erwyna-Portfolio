@@ -198,7 +198,7 @@
 
     /* The photo: full picture inside a white-outlined frame, only the top of my head pokes out.
        The photo and the cutout are the same image at the same size and position, so they line up exactly. */
-    .portrait { position: relative; width: 72%; margin: calc(25.5% + 6px) auto 0; aspect-ratio: 1270 / 934; container-type: inline-size; }
+    .portrait { --w: min(72%, calc((100vh - 290px) / 1.09)); position: relative; width: var(--w); margin: calc(var(--w) * 0.354 + 3px) auto 0; aspect-ratio: 1270 / 934; container-type: inline-size; }
     .portrait .frame {
       position: absolute; inset: 0;
       border-radius: 30px;
@@ -270,8 +270,6 @@
     .cube3 .cube { --s: 34px; }
 
     .tagpill { left: 2%; top: 30%; }
-    .tagpill a { display: block; background: #fff; color: var(--ink); border-radius: 100px; padding: 8px 16px; font-size: 12px; text-decoration: none; box-shadow: 0 14px 30px -14px rgba(30, 20, 70, 0.5); animation: bobTilt 7s ease-in-out infinite; transition: background 0.25s, color 0.25s; }
-    .tagpill a:hover { background: var(--ink); color: #fff; }
     @keyframes bobTilt { 0%, 100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-6deg) translateY(-8px); } }
 
     .bubble { width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.9); background: rgba(255, 255, 255, 0.18); backdrop-filter: blur(8px); display: grid; place-items: center; color: #fff; font-size: 16px; }
@@ -285,11 +283,12 @@
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
     .ytpill { left: 0; top: 42%; }
-    .ytpill button { position: relative; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: #ff3d6e; color: #fff; border-radius: 100px; padding: 5px 14px 5px 5px; font-size: 12px; box-shadow: 0 0 0 2px #fff, 0 14px 30px -14px rgba(30, 20, 70, 0.6); animation: bobTilt2 6s ease-in-out infinite; transition: background 0.25s; }
-    .ytpill button:hover { background: var(--ink); }
-    .ytpill img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; }
-    .ytpill button::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translate(-50%, 6px); opacity: 0; white-space: nowrap; background: var(--ink); color: #fff; padding: 6px 10px; border-radius: 8px; font-size: 11px; pointer-events: none; transition: opacity 0.25s, transform 0.3s var(--ease); }
-    .ytpill button:hover::after { opacity: 1; transform: translate(-50%, 0); }
+    .ytpill button, .tagpill button { position: relative; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: none; background: #dd6f9f; color: #fff; font-weight: 500; border-radius: 100px; padding: 5px 14px 5px 5px; font-size: 12px; box-shadow: 0 0 0 2px #fff, 0 14px 30px -14px rgba(30, 20, 70, 0.6); animation: bobTilt2 6s ease-in-out infinite; transition: background 0.25s; }
+    .tagpill button { background: #b86fcc; animation-name: bobTilt; }
+    .ytpill button:hover, .tagpill button:hover { background: var(--ink); }
+    .ytpill img, .tagpill img { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; }
+    .ytpill button::after, .tagpill button::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translate(-50%, 6px); opacity: 0; white-space: nowrap; background: var(--ink); color: #fff; padding: 6px 10px; border-radius: 8px; font-size: 11px; pointer-events: none; transition: opacity 0.25s, transform 0.3s var(--ease); }
+    .ytpill button:hover::after, .tagpill button:hover::after { opacity: 1; transform: translate(-50%, 0); }
     @keyframes bobTilt2 { 0%, 100% { transform: rotate(5deg) translateY(0); } 50% { transform: rotate(3deg) translateY(-7px); } }
 
     /* Video popup */
@@ -307,7 +306,8 @@
     .yt-channel img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; }
     .yt-channel b { display: block; font-size: 17px; font-weight: 600; }
     .yt-channel small { font-size: 13px; opacity: 0.75; }
-    .yt-channel .sub { margin-left: auto; background: #ff3d6e; padding: 8px 14px; border-radius: 100px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+    .yt-channel .sub { margin-left: auto; background: #dd6f9f; padding: 8px 14px; border-radius: 100px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+    .yt-channel.gh .sub { background: #b86fcc; }
     .yt-list { display: grid; gap: 10px; }
     .yt-item { display: grid; grid-template-columns: 128px 1fr auto; gap: 14px; align-items: center; padding: 8px; border-radius: 16px; text-decoration: none; transition: background 0.25s; }
     .yt-item:hover { background: var(--purple-soft); }
@@ -408,6 +408,26 @@
     .links { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
     .links a { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--purple-deep); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
     .links a:hover { border-color: currentColor; }
+    .more { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+    .more summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--purple-deep); padding: 6px 12px; border-radius: 100px; background: var(--purple-soft); transition: background 0.25s, color 0.25s; }
+    .more summary::-webkit-details-marker { display: none; }
+    .more summary::after { content: '↓'; transition: transform 0.3s var(--ease); }
+    .more[open] summary::after { transform: rotate(180deg); }
+    .more summary:hover { background: var(--purple); color: #fff; }
+    .more[open] summary { background: var(--purple); color: #fff; }
+    .more-body { padding: 14px 2px 4px; animation: pop 0.4s var(--ease); }
+    .more .role { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 8px; }
+    .more ul { padding-left: 18px; display: grid; gap: 6px; }
+    .more li { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+    .more li::marker { color: var(--purple); }
+    .shows { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 12px; }
+    .shows span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-2); margin-right: 2px; }
+    .shows em { font-style: normal; font-size: 12px; padding: 4px 10px; border-radius: 100px; background: #fff; border: 1px solid var(--line); color: var(--purple-deep); }
+    .yt-card.notice p { font-size: 15px; color: var(--ink-2); line-height: 1.65; margin-bottom: 12px; }
+    .notice-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .notice-links a { text-decoration: none; padding: 9px 16px; border-radius: 100px; background: var(--purple-soft); color: var(--purple-deep); font-size: 14px; transition: background 0.25s, color 0.25s; }
+    .notice-links a:hover { background: var(--purple); color: #fff; }
+    .grid { align-items: start; }
     .tag { position: absolute; left: 12px; top: 12px; z-index: 3; background: #fff; color: var(--ink); padding: 5px 10px; border-radius: 100px; font-size: 11px; }
 
 
@@ -545,7 +565,7 @@
       .hero-grid { grid-template-columns: 1fr; }
       .wheel { height: 420px; min-height: 0; }
       .stage { margin-top: 24px; }
-      .portrait { width: 80%; margin-top: calc(28.3% + 6px); }
+      .portrait { --w: 80%; }
       .totop-badge { position: relative; right: auto; top: auto; margin: 0 auto 10px; display: grid; }
       .row { grid-template-columns: 1fr; }
     }
@@ -553,7 +573,7 @@
       .nav-links li:not(:last-child) { display: none; }
       .stage { text-align: center; }
       .slashes span:nth-child(2) { display: none; }
-      .portrait { width: 100%; margin-top: calc(35.4% + 6px); }
+      .portrait { --w: 100%; }
       .portrait .frame { border-radius: 22px; }
       .banner { left: 3%; right: 3%; font-size: 11.5px; padding: 9px 10px; gap: 6px; flex-wrap: nowrap; white-space: nowrap; }
       .welcome { font-size: 19px; margin-top: 42px; }
@@ -610,37 +630,42 @@
         <div class="pop" aria-hidden="true"><img class="cut" src="assets/images/me-cutout-full.webp" alt="" /></div>
         <div class="banner"><i></i><b>Open to internships</b><span>19 Nov 2026 to 19 Feb 2027</span></div>
       </div>
-      <h1 class="welcome">hi, I'm Erwyna. I build AI tools that actually work.</h1>
+      <h1 class="welcome">hi, I'm Erwyna. I build tools that actually work.</h1>
 
       <div class="layer cube-wrap cube1" data-depth="-28" style="--d:0.75s" aria-hidden="true"><div class="cube"><i>✦</i><i>♡</i><i>✿</i><i>★</i><i></i><i></i></div></div>
       <div class="layer cube-wrap cube2" data-depth="24" style="--d:0.85s" aria-hidden="true"><div class="cube" style="--b:-6s"><i>♡</i><i>☁</i><i>✦</i><i>✿</i><i></i><i></i></div></div>
       <div class="layer bub1" data-depth="-36" style="--d:1s"><div class="bob" style="--b:-1s"><button class="bubble heart" aria-label="Send a heart">♡</button></div></div>
       <div class="layer bub2" data-depth="-22" style="--d:1.1s"><div class="bob" style="--b:-4s"><button class="bubble heart" aria-label="Send a heart">♡</button></div></div>
-      <div class="layer tagpill" data-depth="-26" style="--d:0.95s"><a class="mono" href="https://github.com/Emmapoky" target="_blank" rel="noopener">@emmapoky ↗</a></div>
+      <div class="layer tagpill" data-depth="-26" style="--d:0.95s"><button class="mono" id="ghOpen" data-tip="peek at my code"><img src="assets/images/gh-pfp.jpg" alt="" />&lt;/&gt; my code</button></div>
       <div class="layer ytpill" data-depth="18" style="--d:1.05s"><button class="mono" id="ytOpen" data-tip="watch my project videos"><img src="assets/images/yt-pfp.jpg" alt="" />▶ my videos</button></div>
 
     </div>
       <div class="wheel" aria-label="My projects">
         <div class="col" aria-hidden="true">
           <a class="tile" href="#work"><img src="assets/images/thumbs/shipcheck.jpg" alt="ShipCheck" loading="lazy" /><span>ShipCheck<em>2026</em></span></a>
+          <a class="tile" href="#work"><img src="assets/images/thumbs/sb-lobby.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/knowva-1.jpg" alt="Knowva" loading="lazy" /><span>Knowva<em>2025</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/salad-bowl-phone.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/fit2099.jpg" alt="Toxic Atmosphere" loading="lazy" /><span>Toxic Atmosphere<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/shipcheck.jpg" alt="ShipCheck" loading="lazy" /><span>ShipCheck<em>2026</em></span></a>
+          <a class="tile" href="#work"><img src="assets/images/thumbs/sb-lobby.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/knowva-1.jpg" alt="Knowva" loading="lazy" /><span>Knowva<em>2025</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/salad-bowl-phone.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/fit2099.jpg" alt="Toxic Atmosphere" loading="lazy" /><span>Toxic Atmosphere<em>2026</em></span></a>
         </div>
         <div class="col down" aria-hidden="true">
           <a class="tile" href="#work"><img src="assets/images/thumbs/commentsense.jpg" alt="CommentSense" loading="lazy" /><span>CommentSense<em>2025</em></span></a>
+          <a class="tile" href="#work"><img src="assets/images/thumbs/sb-in.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/etw2001.jpg" alt="Superstore" loading="lazy" /><span>Superstore<em>2025</em></span></a>
+          <a class="tile" href="#work"><img src="assets/images/thumbs/sb-howto.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/knowva-3.jpg" alt="Knowva" loading="lazy" /><span>Knowva<em>2025</em></span></a>
-          <a class="tile" href="#work"><img src="assets/images/thumbs/shipcheck.jpg" alt="ShipCheck" loading="lazy" /><span>ShipCheck<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/commentsense.jpg" alt="CommentSense" loading="lazy" /><span>CommentSense<em>2025</em></span></a>
+          <a class="tile" href="#work"><img src="assets/images/thumbs/sb-in.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/etw2001.jpg" alt="Superstore" loading="lazy" /><span>Superstore<em>2025</em></span></a>
+          <a class="tile" href="#work"><img src="assets/images/thumbs/sb-howto.jpg" alt="Salad Bowl" loading="lazy" style="aspect-ratio:3/4;object-position:center top" /><span>Salad Bowl<em>2026</em></span></a>
           <a class="tile" href="#work"><img src="assets/images/thumbs/knowva-3.jpg" alt="Knowva" loading="lazy" /><span>Knowva<em>2025</em></span></a>
-          <a class="tile" href="#work"><img src="assets/images/thumbs/shipcheck.jpg" alt="ShipCheck" loading="lazy" /><span>ShipCheck<em>2026</em></span></a>
         </div>
+      </div>
       </div>
     </div>
 
@@ -666,6 +691,14 @@
             <p>AI and rules that check shipping documents. 46/46 end to end.</p>
           </a>
           <div class="links"><a href="https://averishackathon.onrender.com" target="_blank" rel="noopener">Demo ↗</a><a href="https://github.com/Emmapoky/AverisHackathon" target="_blank" rel="noopener">Code ↗</a><a href="https://youtu.be/pQENSlSSQro" target="_blank" rel="noopener">Video ↗</a></div>
+          <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <p class="role">Team lead · Averis Hackathon 2026</p>
+              <ul><li>Built a pipeline that sorts 520 shipping emails, pulls out the fields and flags any Bill of Lading that doesn't match its Shipping Instruction.</li><li>Kept clear rules in front and brought in DeepSeek and Gemini only for unclear emails and scanned PDFs, because the rules already scored a measured 1.000.</li><li>Wrote 67 automated tests, including Malay and Chinese emails, to prove it wasn't just tuned to the sample data.</li><li>Shipped it as one FastAPI app with a dashboard, using Supabase so reviewers' decisions are saved.</li></ul>
+              <div class="shows"><span>Shows</span><em>AI engineering</em><em>Testing</em><em>Product judgment</em></div>
+            </div>
+          </details>
         </article>
 
         <article class="reveal" style="--d:0.08s">
@@ -675,24 +708,48 @@
             <p>Sentiment analysis that finds the comments worth reading.</p>
           </a>
           <div class="links"><a href="https://commentsense-al2hrr5g9pta4h2ip55smk.streamlit.app/" target="_blank" rel="noopener">Demo ↗</a><a href="https://github.com/taabishfrl/CommentSense" target="_blank" rel="noopener">Code ↗</a><a href="https://youtu.be/4gJvz1l6faI" target="_blank" rel="noopener">Video ↗</a></div>
+          <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <p class="role">Team lead · Top 10 national finalist</p>
+              <ul><li>Led the team at the L'Oréal x Monash Datathon 2025.</li><li>Built the Python sentiment analysis that sorts comments into positive and negative.</li><li>Turned it into engagement measures a brand can use, like a Quality Comment Ratio, with spam and toxic comments filtered out.</li><li>Put it all in a clickable Streamlit dashboard instead of notebooks.</li></ul>
+              <div class="shows"><span>Shows</span><em>NLP</em><em>Data storytelling</em><em>Leadership</em></div>
+            </div>
+          </details>
         </article>
 
         <article class="reveal" style="--d:0.16s">
-          <a class="card" href="https://github.com/mkhairul/knowva" target="_blank" rel="noopener">
+          <a class="card" href="#" data-notice="knowva">
             <div class="shot"><img src="assets/images/knowva-1.png" alt="Knowva chat with Tau" loading="lazy" /></div>
             <div class="card-top"><h3>Knowva</h3><span class="year mono">2025</span></div>
             <p>A study app that turns a chat or a PDF into flashcards.</p>
           </a>
-          <div class="links"><a href="https://github.com/mkhairul/knowva" target="_blank" rel="noopener">Code ↗</a><a href="https://canva.link/wyc67l2rllak3iy" target="_blank" rel="noopener">Deck ↗</a><a href="assets/images/Knowva-Architecture.jpeg" target="_blank" rel="noopener">Architecture ↗</a></div>
+          <div class="links"><a href="#" data-notice="knowva">Prototype ↗</a><a href="https://github.com/mkhairul/knowva" target="_blank" rel="noopener">Code ↗</a><a href="https://canva.link/wyc67l2rllak3iy" target="_blank" rel="noopener">Deck ↗</a><a href="assets/images/Knowva-Architecture.jpeg" target="_blank" rel="noopener">Architecture ↗</a></div>
+          <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <p class="role">Team lead · Gamuda AI Academy 2025</p>
+              <ul><li>Led the team building an AI study platform in React with AI services behind it.</li><li>Chat with Tau, the tutor bot, and it turns the conversation into flashcards. Drop in a PDF or paste notes and it does the same.</li><li>Practice modes: multiple choice, typed answers and classic flashcards, with Tau on hand mid session.</li><li>Ran it with Agile sprints, version control and written docs the whole way.</li></ul>
+              <div class="shows"><span>Shows</span><em>Full stack</em><em>LLM integration</em><em>Teamwork</em></div>
+            </div>
+          </details>
         </article>
 
         <article class="reveal">
           <a class="card" href="https://saladbowl.onrender.com/" target="_blank" rel="noopener">
-            <div class="shot"><span class="tag mono">In progress</span><img src="assets/images/salad-bowl.jpg" alt="Salad Bowl home screen" loading="lazy" style="object-position:center" /></div>
+            <div class="shot"><span class="tag mono">In progress</span><img src="assets/images/salad-bowl-screens.jpg" alt="Salad Bowl screens: rules, naming yourself, joining with a room code, the lobby, and a player stepping away" loading="lazy" style="object-position:center" /></div>
             <div class="card-top"><h3>Salad Bowl</h3><span class="year mono">2026</span></div>
             <p>A real time party game for phones, built with a friend.</p>
           </a>
           <div class="links"><a href="https://saladbowl.onrender.com/" target="_blank" rel="noopener">Play ↗</a></div>
+          <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <p class="role">Developer · side project with Naviah, who designs it</p>
+              <ul><li>Built the real time room server: room codes, a live lobby, players joining, leaving and reconnecting.</li><li>Only the clue giver's phone ever receives the card. It is never sent to anyone else, so nobody can peek.</li><li>Plays in English, French and Arabic, and was tested between Malaysia and Chicago.</li></ul>
+              <div class="shows"><span>Shows</span><em>Real time systems</em><em>Security thinking</em><em>Product</em></div>
+            </div>
+          </details>
         </article>
 
         <article class="reveal" style="--d:0.08s">
@@ -702,6 +759,14 @@
             <p>Java game systems built on clean object oriented design.</p>
           </a>
           <div class="links"><a href="https://youtu.be/71xShh6DXSg" target="_blank" rel="noopener">Video ↗</a><a href="https://git.infotech.monash.edu/fit2099/fit2099-s1-2026/assignment-groups/MA_AppliedSession07_B/project/-/tree/d27d0ea30998548d675399f7a9fa4917ee0ae611/" target="_blank" rel="noopener">Code ↗</a></div>
+          <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <p class="role">Group lead · FIT2099 Object Oriented Design</p>
+              <ul><li>Designed the atmosphere system for a text based survival game: hazards, a shaky economy and undead spawns.</li><li>Everything is wired through one factory and only depends on interfaces, so new effects plug in without touching the old ones.</li><li>Recorded the walkthrough explaining the design choices.</li></ul>
+              <div class="shows"><span>Shows</span><em>Java</em><em>OOP and SOLID</em><em>Backend design</em></div>
+            </div>
+          </details>
         </article>
 
         <article class="reveal" style="--d:0.16s">
@@ -711,6 +776,14 @@
             <p>Retail data showing where discounts quietly eat profit.</p>
           </a>
           <div class="links"><a href="https://019f230f-55b2-0f52-8e5f-060472626c02.share.connect.posit.cloud/" target="_blank" rel="noopener">Demo ↗</a><a href="https://youtu.be/JyIYTYJW1iM" target="_blank" rel="noopener">Video ↗</a></div>
+          <details class="more">
+            <summary>Read more</summary>
+            <div class="more-body">
+              <p class="role">Solo project · ETW2001 Foundations of Data Analysis</p>
+              <ul><li>Did this one on my own, from the analysis to the final dashboard.</li><li>Found a discount trap: past 20% off, sales go up but profit goes down.</li><li>Lined the sales up against World Bank and OECD indicators to separate the economy from the store's own choices.</li><li>Added a raw data tab so anyone can check every claim.</li></ul>
+              <div class="shows"><span>Shows</span><em>Data analysis</em><em>Business insight</em><em>Visualisation</em></div>
+            </div>
+          </details>
         </article>
       </div>
     </section>
@@ -790,6 +863,35 @@
       </div>
     </div>
   </div>
+  <div class="yt-modal" id="ghModal" role="dialog" aria-modal="true" aria-labelledby="ghTitle">
+    <div class="yt-card">
+      <div class="yt-head"><h3 id="ghTitle">my <em>code</em> ✦</h3><button class="yt-close" id="ghClose" aria-label="Close">✕</button></div>
+      <a class="yt-channel gh" href="https://github.com/Emmapoky" target="_blank" rel="noopener">
+        <img src="assets/images/gh-pfp.jpg" alt="Emmapoky GitHub picture" />
+        <span><b>Emmapoky</b><small>github.com/Emmapoky</small></span>
+        <span class="sub">Visit profile ↗</span>
+      </a>
+      <div class="yt-list">
+        <a class="yt-item" href="https://github.com/Emmapoky/AverisHackathon" target="_blank" rel="noopener"><img src="assets/images/thumbs/shipcheck.jpg" alt="" loading="lazy" /><span><b>ShipCheck</b><small>FastAPI, rules and LLMs</small></span><span class="go">GitHub ↗</span></a>
+        <a class="yt-item" href="https://github.com/taabishfrl/CommentSense" target="_blank" rel="noopener"><img src="assets/images/thumbs/commentsense.jpg" alt="" loading="lazy" /><span><b>CommentSense</b><small>Python and Streamlit</small></span><span class="go">GitHub ↗</span></a>
+        <a class="yt-item" href="https://github.com/mkhairul/knowva" target="_blank" rel="noopener"><img src="assets/images/thumbs/knowva-1.jpg" alt="" loading="lazy" /><span><b>Knowva</b><small>Next.js and Firebase</small></span><span class="go">GitHub ↗</span></a>
+        <a class="yt-item" href="https://git.infotech.monash.edu/fit2099/fit2099-s1-2026/assignment-groups/MA_AppliedSession07_B/project/-/tree/d27d0ea30998548d675399f7a9fa4917ee0ae611/" target="_blank" rel="noopener"><img src="assets/images/thumbs/fit2099.jpg" alt="" loading="lazy" /><span><b>Toxic Atmosphere</b><small>Java, OOP design</small></span><span class="go">Monash GitLab ↗</span></a>
+        <a class="yt-item" href="https://github.com/Emmapoky/Erwyna-Portfolio" target="_blank" rel="noopener"><img src="assets/images/hero-1600.jpg" alt="" loading="lazy" style="object-position:58% 30%" /><span><b>This portfolio</b><small>HTML, CSS and a lot of purple</small></span><span class="go">GitHub ↗</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="yt-modal" id="noticeModal" role="dialog" aria-modal="true" aria-labelledby="noticeTitle">
+    <div class="yt-card notice">
+      <div class="yt-head"><h3 id="noticeTitle">Knowva is <em>offline</em> 🌸</h3><button class="yt-close" id="noticeClose" aria-label="Close">✕</button></div>
+      <p>Knowva was built during Gamuda AI Academy on services the academy paid for, like the Gemini API and hosted vector stores. Those ended with the programme, so the live prototype doesn't run anymore.</p>
+      <p>The code, the architecture diagram and the pitch deck are all still here, so you can see exactly how it was built.</p>
+      <div class="notice-links">
+        <a href="https://github.com/mkhairul/knowva" target="_blank" rel="noopener">Code ↗</a>
+        <a href="assets/images/Knowva-Architecture.jpeg" target="_blank" rel="noopener">Architecture ↗</a>
+        <a href="https://canva.link/wyc67l2rllak3iy" target="_blank" rel="noopener">Pitch deck ↗</a>
+      </div>
+    </div>
+  </div>
   <div class="toast" id="toast">thank you ♡</div>
 
   <script>
@@ -857,7 +959,19 @@
     document.getElementById('ytOpen').addEventListener('click', openYt);
     document.getElementById('ytClose').addEventListener('click', closeYt);
     yt.addEventListener('click', (e) => { if (e.target === yt) closeYt(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeYt(); });
+    const notice = document.getElementById('noticeModal');
+    const openNotice = (e) => { e.preventDefault(); notice.classList.add('open'); document.body.style.overflow = 'hidden'; };
+    const closeNotice = () => { notice.classList.remove('open'); document.body.style.overflow = ''; };
+    document.querySelectorAll('[data-notice]').forEach((el) => el.addEventListener('click', openNotice));
+    document.getElementById('noticeClose').addEventListener('click', closeNotice);
+    notice.addEventListener('click', (e) => { if (e.target === notice) closeNotice(); });
+    const gh = document.getElementById('ghModal');
+    const openGh = () => { gh.classList.add('open'); document.body.style.overflow = 'hidden'; };
+    const closeGh = () => { gh.classList.remove('open'); document.body.style.overflow = ''; };
+    document.getElementById('ghOpen').addEventListener('click', openGh);
+    document.getElementById('ghClose').addEventListener('click', closeGh);
+    gh.addEventListener('click', (e) => { if (e.target === gh) closeGh(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeYt(); closeGh(); closeNotice(); } });
 
     // Fade things up as they come into view
     const io = new IntersectionObserver((entries) => {
