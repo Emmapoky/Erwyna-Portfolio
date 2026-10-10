@@ -164,6 +164,8 @@
     @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
     /* Slashed labels and the big word, borrowed from the Pinterest portfolio covers */
+    .slashes b { font-weight: 400; }
+    .slashes .short { display: none; }
     .slashes {
       position: relative;
       display: flex; justify-content: space-between; gap: 10px;
@@ -574,7 +576,9 @@
     @media (max-width: 640px) {
       .nav-links li:not(:last-child) { display: none; }
       .stage { text-align: center; }
-      .slashes span:nth-child(2) { display: none; }
+      .slashes span:nth-child(3) { display: none; }
+      .slashes .full { display: none; }
+      .slashes .short { display: inline; }
       .portrait { --w: 100%; }
       .portrait .frame { border-radius: 22px; }
       .banner { left: 3%; right: 3%; font-size: 11.5px; padding: 9px 10px; gap: 6px; flex-wrap: nowrap; white-space: nowrap; }
@@ -620,7 +624,7 @@
 
     <div class="hero-grid">
     <div class="stage" id="stage">
-      <div class="slashes"><span>Monash University</span><span>Computer Science, final year</span><span>Kuala Lumpur</span></div>
+      <div class="slashes"><span>Monash University</span><span><b class="full">Advanced Computer Science, final year</b><b class="short">Adv. CS, final year</b></span><span>Kuala Lumpur</span></div>
       <div class="layer sparkle" data-depth="-14" style="--d:0.4s" aria-hidden="true">✦</div>
       <div class="layer sparkle small" data-depth="20" style="--d:0.6s" aria-hidden="true">✦</div>
 
@@ -632,7 +636,7 @@
         <div class="pop" aria-hidden="true"><img class="cut" src="assets/images/me-cutout-full.webp" alt="" /></div>
         <div class="banner"><i></i><b>Open to internships</b><span>19 Nov 2026 to 19 Feb 2027</span></div>
       </div>
-      <h1 class="welcome">hi, I'm Erwyna, a third and final year Computer Science student at Monash University. I build tools that actually work.</h1>
+      <h1 class="welcome">hi, I'm Erwyna. I build tools that take the boring parts off people's plates.</h1>
 
       <div class="layer cube-wrap cube1" data-depth="-28" style="--d:0.75s" aria-hidden="true"><div class="cube words"><i>Python</i><i>SQL</i><i>React</i><i>FastAPI</i><i></i><i></i></div></div>
       <div class="layer cube-wrap cube2" data-depth="24" style="--d:0.85s" aria-hidden="true"><div class="cube words" style="--b:-6s"><i>LLMs</i><i>NLP</i><i>ML</i><i>Docker</i><i></i><i></i></div></div>
