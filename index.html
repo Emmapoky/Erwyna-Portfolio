@@ -81,9 +81,17 @@
       transition: transform 0.3s var(--ease);
     }
     .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-links .cv { background: var(--ink); color: #fff; padding: 10px 20px; border-radius: 100px; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; box-shadow: 0 0 0 2px #fff, 0 10px 24px -10px rgba(40, 20, 110, 0.8); transition: background 0.25s, transform 0.3s var(--ease); }
-    .nav-links .cv::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #7dffa6; animation: pulse 2s infinite; }
-    .nav-links .cv:hover { background: var(--purple-deep); transform: translateY(-1px); }
+    .nav-links .cv {
+      background: linear-gradient(135deg, #a98bff 0%, #7b5cff 60%, #6444ee 100%);
+      color: #fff; padding: 10px 20px; border-radius: 100px;
+      display: inline-flex; align-items: center; gap: 8px; font-weight: 700;
+      box-shadow: 0 0 0 2px #fff, 0 10px 24px -10px rgba(90, 63, 214, 0.9);
+      transition: filter 0.25s, transform 0.3s var(--ease);
+      animation: wobbleNav 5s ease-in-out infinite;
+    }
+    @keyframes wobbleNav { 0%, 70%, 100% { transform: rotate(0deg); } 74% { transform: rotate(-5deg) scale(1.06); } 78% { transform: rotate(4deg) scale(1.06); } 82% { transform: rotate(-3deg); } 86% { transform: rotate(2deg); } 90% { transform: rotate(0deg); } }
+    .nav-links .cv::before { content: '✦'; font-size: 13px; color: #fff; }
+    .nav-links .cv:hover { filter: brightness(1.08); transform: translateY(-1px) scale(1.04); animation-play-state: paused; }
     .nav-links .cv::after { display: none; }
 
     /* ---------- Hero: blurry photo behind, clear photo in front, glass cards around it ---------- */
@@ -549,39 +557,54 @@
     .foot a:hover { text-decoration: underline; }
 
     /* Floating back-to-top button once you've scrolled */
-    /* Cloud buddy: a little cloud with a face that drifts toward your cursor and carries the Resume link */
+    /* Purple buddy: holds a big Resume button, wiggles, drifts toward your cursor and hops when you scroll */
     .buddy {
-      position: fixed; right: 18px; bottom: 14px; z-index: 61;
-      width: 168px; height: 116px;
+      position: fixed; right: 16px; bottom: 10px; z-index: 61;
+      width: 206px; height: 204px;
       display: block; text-decoration: none; color: #fff;
       will-change: translate;
     }
-    .buddy-in { position: absolute; inset: 0; animation: bobBuddy 4.5s ease-in-out infinite; transform-origin: 50% 90%; }
-    .buddy.hop .buddy-in { animation: hopBuddy 0.6s var(--ease), bobBuddy 4.5s ease-in-out 0.6s infinite; }
-    @keyframes bobBuddy { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-7px) rotate(1.5deg); } }
-    @keyframes hopBuddy { 0% { transform: translateY(0) scale(1, 1); } 30% { transform: translateY(-16px) scale(0.96, 1.06); } 60% { transform: translateY(0) scale(1.06, 0.92); } 100% { transform: translateY(0) scale(1, 1); } }
-    .buddy svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 14px 18px rgba(60, 35, 160, 0.45)); transition: transform 0.4s var(--ease); }
-    .buddy:hover svg { transform: scale(1.08) rotate(-2deg); }
-    .buddy .pupil { transition: transform 0.12s linear; }
-    .buddy .eye { transform-box: fill-box; transform-origin: center; animation: blink 5.5s infinite; }
-    @keyframes blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
-    .buddy .blush { opacity: 0.85; }
-    .buddy:hover .blush { opacity: 1; }
-    .buddy:hover .mouth-calm { opacity: 0; }
-    .buddy .mouth-happy { opacity: 0; }
-    .buddy:hover .mouth-happy { opacity: 1; }
-    .buddy .spark { transform-box: fill-box; transform-origin: center; animation: twinkle 3s ease-in-out infinite; }
-    .buddy .spark.s2 { animation-delay: -1.2s; }
-    .buddy-label {
-      position: absolute; left: 0; right: 0; bottom: 17px;
-      text-align: center;
-      font-size: 15px; font-weight: 700; letter-spacing: -0.01em;
-      color: #fff;
-      text-shadow: 0 1px 3px rgba(42, 27, 99, 0.7), 0 0 8px rgba(42, 27, 99, 0.35);
-      pointer-events: none;
+    .buddy-in { position: absolute; inset: 0; transform-origin: 50% 100%; animation: wiggleBuddy 3.6s ease-in-out infinite; }
+    .buddy.hop .buddy-in { animation: hopBuddy 0.6s var(--ease), wiggleBuddy 3.6s ease-in-out 0.6s infinite; }
+    @keyframes wiggleBuddy {
+      0%, 52%, 100% { transform: rotate(0deg) translateY(0); }
+      56% { transform: rotate(-7deg) translateY(-4px); }
+      60% { transform: rotate(6deg) translateY(-2px); }
+      64% { transform: rotate(-5deg) translateY(-4px); }
+      68% { transform: rotate(4deg) translateY(-1px); }
+      72% { transform: rotate(-2deg) translateY(0); }
+      78% { transform: rotate(0deg); }
+      25% { transform: rotate(0.8deg) translateY(-3px); }
     }
+    @keyframes hopBuddy { 0% { transform: translateY(0) scale(1, 1); } 30% { transform: translateY(-18px) scale(0.96, 1.06); } 60% { transform: translateY(0) scale(1.06, 0.92); } 100% { transform: translateY(0) scale(1, 1); } }
+    .buddy-body {
+      position: absolute; left: 50%; bottom: 0; width: 128px; margin-left: -64px;
+      filter: drop-shadow(0 12px 14px rgba(60, 35, 160, 0.4));
+    }
+    .buddy-shadow { position: absolute; left: 50%; bottom: -4px; width: 130px; height: 16px; margin-left: -65px; border-radius: 50%; background: rgba(60, 35, 160, 0.28); filter: blur(5px); }
+    .buddy-btn {
+      position: absolute; left: 4px; right: 4px; bottom: 30px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      height: 52px; border-radius: 16px;
+      background: linear-gradient(135deg, #6a4cf0 0%, #4a2bd1 55%, #3a1fa8 100%);
+      border: 3px solid #fff;
+      box-shadow: 0 14px 24px -10px rgba(60, 35, 160, 0.85), inset 0 2px 0 rgba(255, 255, 255, 0.45);
+      font-size: 19px; font-weight: 800; letter-spacing: -0.01em; color: #fff;
+      text-shadow: 0 2px 4px rgba(42, 27, 99, 0.45);
+      transform-origin: 50% 50%;
+      animation: wobbleBtn 3.6s ease-in-out infinite;
+      transition: filter 0.25s;
+    }
+    @keyframes wobbleBtn { 0%, 52%, 100% { transform: rotate(0deg); } 58% { transform: rotate(3deg) scale(1.03); } 64% { transform: rotate(-3deg) scale(1.03); } 70% { transform: rotate(2deg); } 76% { transform: rotate(0deg); } }
+    .buddy:hover .buddy-btn { filter: brightness(1.1); animation-play-state: paused; transform: scale(1.06); }
+    .buddy-btn svg { width: 20px; height: 20px; flex: none; }
+    .buddy-hand {
+      position: absolute; bottom: 36px; width: 30px; height: 30px; border-radius: 50%;
+      background: #aeaad2; box-shadow: inset -3px -3px 0 rgba(106, 100, 170, 0.45), 0 3px 6px rgba(42, 27, 99, 0.25);
+    }
+    .buddy-hand.l { left: -4px; } .buddy-hand.r { right: -4px; }
     .buddy-tip {
-      position: absolute; right: 8px; bottom: calc(100% - 6px);
+      position: absolute; right: 8px; bottom: calc(100% - 4px);
       padding: 7px 12px; border-radius: 14px 14px 4px 14px;
       background: #fff; color: var(--ink);
       font-size: 12px; font-weight: 600; white-space: nowrap;
@@ -591,9 +614,9 @@
       pointer-events: none;
     }
     .buddy:hover .buddy-tip, .buddy:focus-visible .buddy-tip, .buddy.hello .buddy-tip { opacity: 1; transform: none; }
-    .buddy:focus-visible { outline: 3px solid #fff; outline-offset: 4px; border-radius: 40px; }
+    .buddy:focus-visible { outline: 3px solid #fff; outline-offset: 4px; border-radius: 24px; }
     .fab {
-      position: fixed; right: 22px; bottom: 138px; z-index: 60;
+      position: fixed; right: 22px; bottom: 226px; z-index: 60;
       width: 50px; height: 50px; border-radius: 50%;
       display: grid; place-items: center;
       background: var(--purple); color: #fff; text-decoration: none; font-size: 20px;
@@ -607,6 +630,63 @@
     /* Fade up on scroll */
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); transition-delay: var(--d, 0s); }
     .reveal.in { opacity: 1; transform: none; }
+
+    /* ---------- Button states: clear colour change on hover, darker still when pressed ---------- */
+    :root { --deep: #3a1fa8; --deeper: #26106f; }
+    .btn, .cta, .mail, .socials a, .more summary, .notice-links a, .yt-close, .fab, .links a, .head a.mono, .nav-links .cv, .buddy-btn, .yt-channel .sub, .ytpill button, .tagpill button { transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.25s, transform 0.2s var(--ease), filter 0.2s; }
+
+    /* See my work */
+    .cta:hover { background: var(--deep); border-color: var(--deep); color: #fff; box-shadow: 0 16px 30px -12px rgba(58, 31, 168, 0.8); }
+    .cta:active { background: var(--deeper); border-color: var(--deeper); transform: translateY(0) scale(0.97); }
+
+    /* Demo / Code / Video links under each project become little pills on hover */
+    .links a { padding: 3px 10px; margin: -3px -10px; border-radius: 100px; border: 1px solid transparent; }
+    .links { gap: 8px; }
+    .links a:hover { background: var(--deep); color: #fff; border-color: var(--deep); }
+    .links a:active { background: var(--deeper); border-color: var(--deeper); transform: scale(0.96); }
+
+    /* Read more */
+    .more summary:hover { background: var(--deep); color: #fff; }
+    .more summary:active { background: var(--deeper); transform: scale(0.97); }
+    .more[open] summary { background: var(--purple-deep); }
+    .more[open] summary:hover { background: var(--deeper); }
+
+    /* Full resume link, popups, notice links */
+    .head a.mono { padding: 4px 12px; border-radius: 100px; }
+    .head a.mono:hover { background: var(--deep); color: #fff; text-decoration: none; }
+    .head a.mono:active { background: var(--deeper); }
+    .notice-links a:hover { background: var(--deep); color: #fff; }
+    .notice-links a:active { background: var(--deeper); transform: scale(0.97); }
+    .yt-close:hover { background: var(--deep); color: #fff; }
+    .yt-close:active { background: var(--deeper); transform: scale(0.94); }
+    .yt-channel:hover .sub { background: #b8447d; }
+    .yt-channel.gh:hover .sub { background: #8a3fa3; }
+    .yt-item:hover { background: #d9ccff; }
+    .yt-item:active { background: #c4b0ff; }
+
+    /* Contact section */
+    .mail:hover { background: var(--deep); color: #fff; box-shadow: 0 20px 40px -14px rgba(26, 16, 111, 0.9); }
+    .mail:active { background: var(--deeper); transform: translateY(-1px) scale(0.98); }
+    .socials a:hover { background: #fff; color: var(--deep); border-color: #fff; }
+    .socials a:active { background: #d9ccff; color: var(--deeper); transform: scale(0.96); }
+
+    /* Floating and corner buttons */
+    .fab:hover { background: var(--deep); }
+    .fab:active { background: var(--deeper); transform: scale(0.92); }
+    .nav-links .cv:hover { background: linear-gradient(135deg, #6a4cf0 0%, #3a1fa8 100%); filter: none; box-shadow: 0 0 0 2px #fff, 0 12px 26px -8px rgba(58, 31, 168, 0.95); }
+    .nav-links .cv:active { background: linear-gradient(135deg, #3a1fa8 0%, #26106f 100%); transform: scale(0.96); }
+    .buddy:hover .buddy-btn { background: linear-gradient(135deg, #c3adff 0%, #9a7dff 55%, #7b5cff 100%); filter: none; text-shadow: 0 2px 4px rgba(42, 27, 99, 0.6); }
+    .buddy:active .buddy-btn { background: linear-gradient(135deg, #3a1fa8 0%, #26106f 100%); transform: scale(0.95); }
+    .totop-badge:hover span { background: var(--deep); color: #fff; }
+    .totop-badge:active span { background: var(--deeper); }
+
+    /* Pink and orchid pills darken into their own deeper shade */
+    .ytpill button:hover { background: #b8447d; }
+    .ytpill button:active { background: #8f2f60; transform: scale(0.96); }
+    .tagpill button:hover { background: #8a3fa3; }
+    .tagpill button:active { background: #66277d; transform: scale(0.96); }
+    .heart:hover { background: #ffe3f0; color: #e0407f; }
+    .heart:active { background: #ffc2dc; transform: scale(0.9); }
 
     @media (max-width: 960px) {
       .grid { grid-template-columns: repeat(2, 1fr); }
@@ -628,10 +708,8 @@
       .banner { left: 3%; right: 3%; font-size: 11.5px; padding: 9px 10px; gap: 6px; flex-wrap: nowrap; white-space: nowrap; }
       .welcome { font-size: 19px; margin-top: 42px; }
       .cube3, .bub2, .sparkle.small { display: none; }
-      .buddy { width: 132px; height: 91px; right: 10px; bottom: 10px; }
-      .buddy-label { font-size: 12.5px; bottom: 13px; }
-      .buddy-tip { font-size: 11px; }
-      .fab { right: 14px; bottom: 110px; }
+      .buddy { zoom: 0.72; right: 8px; bottom: 6px; }
+      .fab { right: 14px; bottom: 160px; }
       .tagpill, .ytpill { position: relative; display: inline-block; left: auto; top: auto; margin: 16px 5px 0; }
       .tagpill, .ytpill { translate: none !important; }
       .yt-item { grid-template-columns: 96px 1fr; }
@@ -902,26 +980,14 @@
   <a class="buddy" id="buddy" href="assets/resume.pdf" target="_blank" rel="noopener" aria-label="Open my resume as a PDF">
     <span class="buddy-tip" aria-hidden="true">tap for my resume!</span>
     <span class="buddy-in">
-      <svg viewBox="0 0 168 116" aria-hidden="true">
-        <defs>
-          <linearGradient id="cloudG" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#efe8ff"/>
-            <stop offset="0.55" stop-color="#c4b0ff"/>
-            <stop offset="1" stop-color="#9a7dff"/>
-          </linearGradient>
-        </defs>
-        <path d="M44 100 C16 100 6 76 24 62 C14 40 40 26 58 38 C64 12 106 8 118 34 C140 24 164 42 152 64 C166 78 154 100 128 100 Z" fill="url(#cloudG)" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
-        <ellipse cx="70" cy="30" rx="14" ry="6" fill="#fff" opacity="0.55" transform="rotate(-12 70 30)"/>
-        <g class="eye"><ellipse cx="66" cy="55" rx="7" ry="8.5" fill="#fff"/><circle class="pupil" cx="66" cy="56" r="4.6" fill="#2a1b63"/><circle cx="64.4" cy="54" r="1.5" fill="#fff"/></g>
-        <g class="eye"><ellipse cx="102" cy="55" rx="7" ry="8.5" fill="#fff"/><circle class="pupil" cx="102" cy="56" r="4.6" fill="#2a1b63"/><circle cx="100.4" cy="54" r="1.5" fill="#fff"/></g>
-        <ellipse class="blush" cx="53" cy="68" rx="7" ry="4" fill="#ff9ec8"/>
-        <ellipse class="blush" cx="115" cy="68" rx="7" ry="4" fill="#ff9ec8"/>
-        <path class="mouth-calm" d="M79 66 Q84 71 89 66" fill="none" stroke="#2a1b63" stroke-width="2.4" stroke-linecap="round"/>
-        <path class="mouth-happy" d="M77 65 Q84 76 91 65 Z" fill="#2a1b63" stroke="#2a1b63" stroke-width="2" stroke-linejoin="round"/>
-        <path class="spark" d="M150 14 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3 z" fill="#fff"/>
-        <path class="spark s2" d="M14 20 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 z" fill="#fff" opacity="0.9"/>
-      </svg>
-      <span class="buddy-label">Resume ↗</span>
+      <span class="buddy-shadow" aria-hidden="true"></span>
+      <img class="buddy-body" src="assets/images/buddy.webp" alt="" />
+      <span class="buddy-hand l" aria-hidden="true"></span>
+      <span class="buddy-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+        Resume
+      </span>
+      <span class="buddy-hand r" aria-hidden="true"></span>
     </span>
   </a>
 
